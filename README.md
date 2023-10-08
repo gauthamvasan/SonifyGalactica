@@ -5,6 +5,7 @@ Creative projects related to sonifying galactic or cosmic phenomena.
 ```bash
 conda create --name nasa python=3.10
 conda activate nasa
-pip install Pillow
-pip install pydub
+pip install Pillow pydub pygame
+pip install mingus midiutil 
+pip install opencv_python matplotlib
 ```
