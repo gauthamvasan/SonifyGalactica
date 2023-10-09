@@ -47,7 +47,12 @@ def strideConv(arr, arr2, s):
 
 def main():
     # Load an image
-    filename = "NGC_2336.jpg"
+    # filename = "NGC_2336.jpg"
+    # filename = "galaxies-billions-of-light-years-away.jpg"
+    # filename = "hst-subaru-galaxy.jpg"
+    # filename = "wasp-107b-exoplanet.png"
+    # filename = "butterfly-nebula.png"
+    filename = "core-crab-nebula.jpg"
     image = cv2.imread(f'./data/{filename}')
     image = cv2.resize(image, dsize=(100, 100))
 
@@ -120,7 +125,7 @@ def main():
         my_midi_file.addNote(track=2, channel=2, pitch=red_note_midis[note_index], time=t_data[i] , duration=2, volume=note_velocity)
 
 
-    with open(f'{filename}.mid', "wb") as f:
+    with open(f'./midi/{filename[:-4]}.mid', "wb") as f:
         my_midi_file.writeFile(f)
     print('Saved' + '.mid')
 
