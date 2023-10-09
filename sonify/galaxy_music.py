@@ -1,4 +1,7 @@
-from fileinput import filename
+"""
+Main script for the space apps challenge.
+"""
+
 import cv2
 import numpy as np
 import pandas as pd   # https://pypi.org/project/pandas/
