@@ -1,3 +1,4 @@
+from fileinput import filename
 import cv2
 import numpy as np
 import pandas as pd   # https://pypi.org/project/pandas/
@@ -26,9 +27,9 @@ note_names = ['C2','D2','E2','G2','A2',
              'C4','D4','E4','G4','A4']
 
 # blue_notes = ['C3', 'E3', 'G3', 'B3']
-blue_notes = ['C6', 'E6', 'G6', 'B6']
-green_notes = ['D4', 'F#4', 'A4', 'C5']
-red_notes = ['E5', 'G5', 'B5', 'D6']
+blue_notes  = ['D4', 'F#4', 'A4', 'C5']
+green_notes= ['E5', 'G5', 'B5', 'D6']
+red_notes = ['C6', 'E6', 'G6', 'B6']
 
 vel_min,vel_max = 35,127   #minimum and maximum note velocity
 
@@ -46,7 +47,8 @@ def strideConv(arr, arr2, s):
 
 def main():
     # Load an image
-    image = cv2.imread('/Users/gautham/Downloads/nasa_space_image.jpg')
+    filename = "NGC_2336.jpg"
+    image = cv2.imread(f'./data/{filename}')
     image = cv2.resize(image, dsize=(100, 100))
 
     # Define a 5x5 kernel with equal weights
@@ -96,27 +98,29 @@ def main():
     print('Resolution:',n_notes,'notes')
 
     ## Save MIDI file
-    my_midi_file = MIDIFile(1) #one track
+    my_midi_file = MIDIFile(3) #one track
     my_midi_file.addTempo(track=0, time=0, tempo=bpm)
     my_midi_file.addProgramChange(0, 0, 0, 0)
-    # my_midi_file.addProgramChange(0, 1, 0, instrument_to_program('Electric Guitar (clean)'))
-    # my_midi_file.addProgramChange(0, 0, 0, instrument_to_program('Steel Drums'))
+    my_midi_file.addProgramChange(0, 1, 0, instrument_to_program('Electric Guitar (clean)'))
+    # my_midi_file.addProgramChange(0, 1, 0, instrument_to_program('Violin'))
+    my_midi_file.addProgramChange(0, 2, 0, instrument_to_program('Steel Drums'))
+    # my_midi_file.addProgramChange(0, 2, 0, instrument_to_program('Harmonica'))
 
     for i in range(len(gray)):
         note_index = round(map_value(y1_data[i], 0, 1, len(blue_notes)-1, 0))
         note_velocity = round(map_value(y1_data[i], 0, 1, vel_min, vel_max))
-        my_midi_file.addNote(track=0, channel=0, pitch=note_index, time=t_data[i] , duration=2, volume=note_velocity)
+        my_midi_file.addNote(track=0, channel=0, pitch=blue_note_midis[note_index], time=t_data[i] , duration=2, volume=note_velocity)
 
-        # note_index = round(map_value(y2_data[i], 0, 1, len(green_notes)-1, 0))
-        # note_velocity = round(map_value(y2_data[i], 0, 1, vel_min, vel_max))
-        # my_midi_file.addNote(track=1, channel=1, pitch=note_index, time=t_data[i] , duration=2, volume=note_velocity)
+        note_index = round(map_value(y2_data[i], 0, 1, len(green_notes)-1, 0))
+        note_velocity = round(map_value(y2_data[i], 0, 1, vel_min, vel_max))
+        my_midi_file.addNote(track=1, channel=1, pitch=green_note_midis[note_index], time=t_data[i] , duration=2, volume=note_velocity)
 
-        # note_index = round(map_value(y3_data[i], 0, 1, len(red_notes)-1, 0))
-        # note_velocity = round(map_value(y3_data[i], 0, 1, vel_min, vel_max))
-        # my_midi_file.addNote(track=2, channel=2, pitch=note_index, time=t_data[i] , duration=2, volume=note_velocity)
+        note_index = round(map_value(y3_data[i], 0, 1, len(red_notes)-1, 0))
+        note_velocity = round(map_value(y3_data[i], 0, 1, vel_min, vel_max))
+        my_midi_file.addNote(track=2, channel=2, pitch=red_note_midis[note_index], time=t_data[i] , duration=2, volume=note_velocity)
 
 
-    with open('test_vg.mid', "wb") as f:
+    with open(f'{filename}.mid', "wb") as f:
         my_midi_file.writeFile(f)
     print('Saved' + '.mid')
 

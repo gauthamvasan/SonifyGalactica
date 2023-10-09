@@ -7,5 +7,5 @@ conda create --name nasa python=3.10
 conda activate nasa
 pip install Pillow pydub pygame
 pip install mingus midiutil 
-pip install opencv_python matplotlib
+pip install opencv_python matplotlib pandas
 ```
