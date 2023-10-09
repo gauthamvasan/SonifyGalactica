@@ -14,7 +14,6 @@ if __name__ == "__main__":
 
     # Calculate the histogram
     hist = cv2.calcHist([image], [0], None, [12], [0, 256])
-
     # Define your musical notes
     NOTES = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']
 
@@ -34,3 +33,5 @@ if __name__ == "__main__":
     plt.ylabel('Bin Count')
     plt.title('Histogram of Image')
     plt.show()
+
+
